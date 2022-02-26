@@ -1,6 +1,9 @@
+pan_song = "";
+harry_song = "";
 function preload(){
-
+    harry_song = loadSound("music.mp3");
 }
+
 function setup()
 {
     canvas = createCanvas(300, 300);
@@ -11,4 +14,9 @@ function setup()
 
     //poseNet = ml5.poseNet(v, modelLoaded);
     //poseNet.on('pose', gotPoses);
+}
+
+function draw()
+{
+    image(v, 0, 0, 300, 300);
 }
