@@ -1,9 +1,12 @@
 pan_song = "";
 harry_song = "";
+pan_song_status = "";
+harry_song_status = "";
 leftWristX = 0;
 leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
+scoreLeftWrist = 0;
 
 function preload(){
     harry_song = loadSound("music.mp3");
@@ -21,7 +24,6 @@ function setup()
     v = createCapture(VIDEO);
     v.size(350, 350);
     v.hide();
-    harry_song.play();
     poseNet = ml5.poseNet(v, modelLoaded);
     poseNet.on('pose', gotPoses);
 }
@@ -36,6 +38,8 @@ function gotPoses(results)
     if(results.length > 0)
     {
         console.log(results);
+        scoreLeftWrist =  results[0].pose.keypoints[9].score;
+        console.log("scoreLeftWrist = " + scoreLeftWrist);
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
         console.log("leftWristX = " + leftWristX + "leftWristY = "+ leftWristY);
@@ -49,4 +53,26 @@ function gotPoses(results)
 function draw()
 {
     image(v, 0, 0, 350, 350);
+    pan_song_status = pan_song.isPlaying();
+    harry_song_status = harry_song.isPlaying();
+    fill("#FF0000");
+	stroke("#FF0000");
+    if(scoreLeftWrist > 0.2)
+	{
+		circle(leftWristX,leftWristY,20);
+
+			pan_song.stop();
+
+		if(harry_song_status == false)
+		{
+			harry_song.play();
+			document.getElementById("song_name").innerHTML = "Playing - New Rules";
+		}
+	}
+}
+function play()
+{
+	song_name.play();
+	song_name.setVolume(1);
+	song_name.rate(1);
 }
