@@ -7,6 +7,7 @@ leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
 scoreLeftWrist = 0;
+scoreRightWrist = 0;
 
 function preload(){
     harry_song = loadSound("music.mp3");
@@ -39,7 +40,8 @@ function gotPoses(results)
     {
         console.log(results);
         scoreLeftWrist =  results[0].pose.keypoints[9].score;
-        console.log("scoreLeftWrist = " + scoreLeftWrist);
+        scoreRightWrist =  results[0].pose.keypoints[10].score;
+        console.log("scoreRightWrist = " + scoreRightWrist + "scoreLeftWrist = " + scoreLeftWrist);
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
         console.log("leftWristX = " + leftWristX + "leftWristY = "+ leftWristY);
@@ -61,14 +63,26 @@ function draw()
 	{
 		circle(leftWristX,leftWristY,20);
 
+			harry_song.stop();
+
+		if(pan_song_status == false)
+		{
+			pan_song.play();
+			document.getElementById("song_name").innerHTML = "Playing - Peter Pan";
+		}
+	}
+    if(scoreRightWrist > 0.2)
+	{ 
+		circle(rightWristX,rightWristY,20);
+
 			pan_song.stop();
 
 		if(harry_song_status == false)
 		{
 			harry_song.play();
-			document.getElementById("song_name").innerHTML = "Playing - New Rules";
+			document.getElementById("song_name").innerHTML = "Playing - Harry Potter";
 		}
-	}
+}
 }
 function play()
 {
